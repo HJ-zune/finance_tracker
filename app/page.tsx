@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/card"
 import { Input } from "../components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../components/ui/select";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Trash2, Moon, Sun, Palette } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Popover, PopoverTrigger, PopoverContent } from "../components/ui/popover";
@@ -13,11 +13,10 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
-  
-  useEffect(() => {
-    setTheme("dark");
-    document.documentElement.classList.add("dark");
-  }, [setTheme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const [incomeStreams, setIncomeStreams] = useState([
     { id: crypto.randomUUID(), name: "Salary", amount: 3000, type: "fixed", color: "#FF0000" },
@@ -63,17 +62,13 @@ export default function Home() {
   , [expenseStreams]);
 
   return (
-    <div className={theme === "dark" ? "dark" : ""}>
+    <div>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-end mb-4">
-          <Button
+            <Button
             variant="outline"
             size="icon"
-            onClick={() => {
-              const newTheme = theme === "dark" ? "light" : "dark";
-              setTheme(newTheme);
-              document.documentElement.classList.toggle("dark", newTheme === "dark");
-            }}
+            onClick={toggleTheme}
           >
             {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </Button>
